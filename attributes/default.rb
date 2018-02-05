@@ -1,5 +1,7 @@
 default["collectd"]["version"]            = "5.4.1"
 default["collectd"]["dir"]                = "/opt/collectd"
+default["collectd"]["service_user"]       = "root"
+default["collectd"]["service_group"]      = "root"
 default["collectd"]["plugins_conf_dir"]    = ::File.join(node["collectd"]["dir"], "etc", "conf.d")
 default["collectd"]["source_compression_type"] = "gz"
 default["collectd"]["url"]                = "http://collectd.org/files/collectd-#{node["collectd"]["version"]}.tar.#{node["collectd"]["source_compression_type"]}"

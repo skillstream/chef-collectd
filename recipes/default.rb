@@ -90,7 +90,9 @@ template "/etc/init.d/collectd" do
     source "collectd.init.erb"
   end
   variables(
-    :dir => node["collectd"]["dir"]
+    dir: node["collectd"]["dir"],
+    service_user: node["collectd"]["service_user"],
+    service_group: node["collectd"]["service_group"]
   )
   notifies :restart, "service[collectd]"
   not_if { node["init_package"] == "systemd" }
@@ -99,13 +101,17 @@ end
 template "/usr/lib/systemd/system/collectd.service" do
   mode "0644"
   variables(
-    :dir => node["collectd"]["dir"]
+    dir: node["collectd"]["dir"],
+    service_user: node["collectd"]["service_user"],
+    service_group: node["collectd"]["service_group"]
   )
   notifies :restart, "service[collectd]"
   only_if { node["init_package"] == "systemd" }
 end
 
 template "#{node["collectd"]["dir"]}/etc/collectd.conf" do
+  owner node["collectd"]["service_user"]
+  group node["collectd"]["service_group"]
   mode "0644"
   source "collectd.conf.erb"
   variables(

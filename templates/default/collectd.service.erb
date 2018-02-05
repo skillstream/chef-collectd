@@ -5,6 +5,8 @@ After=local-fs.target network.target
 Requires=local-fs.target network.target
 
 [Service]
+User=<%= service_user %>
+Group=<%= service_group %>
 ExecStart=<%= @dir %>/sbin/collectd -C <%= @dir %>/etc/collectd.conf  -f
 Restart=always
 RestartSec=10
